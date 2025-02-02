@@ -5,7 +5,9 @@ import os
 import glob
 
 import PyFunctionUtils as PFU
-import CategoryInputs as CI
+import PyCategoryInputs as CI
+import PyGlobals as PG
+import PyTableUtils as PTU
 
 dir = "./"
 expenseFiles = glob.glob("Raw/*_Expense.xlsx")
@@ -14,8 +16,6 @@ EXPENSE_COLUMNS = ["Amount", "Date", "Category", "Method", "RatioType", "Descrip
 EXPENSE_CATEGORY_INPUT = CI.CategoryInput('Categories/expenseCategories.txt')
 LIABILITY_INPUT = CI.CategoryInput("Categories/liability.txt")
 RATIO_CATEGORY_INPUT = CI.CategoryInput("Categories/ratioTypes.txt")
-
-EXPENSE_SHEET_NAME = "Expense"
 
 
 def costInput():
@@ -50,11 +50,7 @@ def insertNewRow():
     ratioType = ratioTypeInput()
     description = descriptionInput()
     # Handle income sheet
-    expenseTable = pd.DataFrame()
-    try:
-        expenseTable = pd.read_excel(f"Raw/{date.year}_Expense.xlsx", engine="openpyxl", sheet_name=EXPENSE_SHEET_NAME)
-    except:
-        expenseTable = pd.DataFrame(columns=EXPENSE_COLUMNS)
+    expenseTable = PTU.createOrLoadTable(PG.getExpensePath(year=date.year), PG.getExpenseSheet(), cols=EXPENSE_COLUMNS)
     new_row = pd.DataFrame({
         'Amount': [income],
         'Date': [date],
@@ -64,14 +60,14 @@ def insertNewRow():
         'Description' : [description]
     })
     expenseTable = pd.concat([expenseTable, new_row], ignore_index=True)
-    expenseTable.to_excel(f"Raw/{date.year}_Expense.xlsx", sheet_name=EXPENSE_SHEET_NAME, engine="openpyxl", index=False)
+    expenseTable.to_excel(PG.getExpensePath(year=date.year), sheet_name=PG.getExpenseSheet(), engine="openpyxl", index=False)
     return new_row
 
 
 def query():
     expenseDF = pd.DataFrame()
     for excelFile in expenseFiles:
-        yearDF = pd.read_excel(excelFile, engine="openpyxl", sheet_name=EXPENSE_SHEET_NAME)
+        yearDF = pd.read_excel(excelFile, engine="openpyxl", sheet_name=PG.getExpenseSheet())
         expenseDF = pd.concat([expenseDF, yearDF], ignore_index=True)
 
     while True:
@@ -106,7 +102,7 @@ def query():
                             break
 
                         #This needs initialized beforehand
-                        period_report = pd.DataFrame(columns=["Amount", "Date", "Category", "PaymentMethod", "RatioType", "Description"])
+                        period_report = pd.DataFrame(columns=EXPENSE_COLUMNS)
 
                         for i in range(0, choice):
                             

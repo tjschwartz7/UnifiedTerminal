@@ -3,12 +3,9 @@ import PyMonthlyExpense as PE
 import PyMonthlyRevenue as PI
 import PyTableUtils as PTU
 import subprocess
+import PyGlobals as PG
+import PyTableUtils as PTU
 
-MONTHLY_EXPENSE_SHEET_NAME = "MonthlyExpense"
-MONTHLY_REVENUE_SHEET_NAME = "MonthlyRevenue"
-
-MONTHLY_EXPENSE_PATH = "Raw/MonthlyExpense.xlsx"
-MONTHLY_REVENUE_PATH = "Raw/MonthlyRevenue.xlsx"
 
 def updateTableValue():
     while True:
@@ -21,9 +18,9 @@ def updateTableValue():
                 print("Exiting...")
                 break
             elif choice == 2:
-                PTU.genericUpdateValue(MONTHLY_EXPENSE_PATH, MONTHLY_EXPENSE_SHEET_NAME)
+                PTU.genericUpdateValue(PG.getMonthlyExpensePath(), PG.getMonthlyExpenseSheet())
             elif choice == 3:
-                PTU.genericUpdateValue(MONTHLY_REVENUE_PATH, MONTHLY_REVENUE_SHEET_NAME)
+                PTU.genericUpdateValue(PG.getMonthlyExpensePath(), PG.getMonthlyExpenseSheet())
             else:
                 print("Invalid choice. Please try again.")
         except Exception as e:
@@ -40,9 +37,9 @@ def deleteTableRow():
                 print("Exiting...")
                 break
             elif choice == 2:
-                PTU.genericDeleteRow(MONTHLY_EXPENSE_PATH, MONTHLY_EXPENSE_SHEET_NAME)
+                PTU.genericDeleteRow(PG.getMonthlyExpensePath(), PG.getMonthlyExpenseSheet())
             elif choice == 3:
-                PTU.genericDeleteRow(MONTHLY_REVENUE_PATH, MONTHLY_REVENUE_SHEET_NAME)
+                PTU.genericDeleteRow(PG.getMonthlyExpensePath(), PG.getMonthlyExpenseSheet())
             else:
                 print("Invalid choice. Please try again.")
         except Exception as e:

@@ -3,6 +3,8 @@ import os
 from datetime import datetime
 import PyConfig as PC
 import PyQuery as PQ
+import PyGlobals as PG
+import PyTableUtils as PTU
 
 EMERGENCY_SAVINGS_BUFFER = PC.getEmergencySavingsBuffer()
 EMERGENCY_SAVINGS_MONTHS = PC.getEmergencySavingMonths()
@@ -12,9 +14,8 @@ DEBUG = True
 
 CUR_YEAR = datetime.now().year
 CUR_MONTH = datetime.now().month
-BUDGET_PATH = f"Raw/{CUR_YEAR}{CUR_MONTH}_MonthlyPlan.xlsx"
-ACCOUNT_PATH = "Raw/Account.xlsx"
-INCOME_PATH = "Raw/MonthlyRevenue.xlsx"
+
+BUDGET_COLUMNS = ["RatioType","PercentageMonthlyIncome", "BudgetedCost" ,"ActualCost", "Difference", "Month"]
 
 
 def getCurrentBabyStep(): 
@@ -54,16 +55,12 @@ def getCurrentBabyStep():
 
 def insertRow(ratioType, percentMonthlyIncome):
     monthlyIncome = PQ.calculateMonthlyIncome()
-    transactions = pd.read_excel(f"{CUR_YEAR}_Transaction.xlsx", engine="openpyxl", sheet_name="Transaction")
+    expenseTable = pd.read_excel(PG.getExpensePath(), engine="openpyxl", sheet_name=PG.getExpenseSheet())
 
-    currentMonthSpending = transactions[(transactions["TransactionDate"].dt.year == CUR_YEAR) & (transactions["TransactionDate"].dt.month == CUR_MONTH)]
+    currentMonthSpending = expenseTable[(expenseTable["Date"].dt.year == CUR_YEAR) & (expenseTable["Date"].dt.month == CUR_MONTH)]
 
-    # Handle income sheet
-    try:
-        budget = pd.read_excel(BUDGET_PATH, engine="openpyxl", sheet_name="Budget")
-    except:
-        budget = pd.DataFrame(columns=["RatioType","PercentageMonthlyIncome", "BudgetedCost" ,"ActualCost", "Difference", "Month"])
-    actualCost = currentMonthSpending[currentMonthSpending['RatioType'] == ratioType]['TransactionAmount'].sum()
+    budget = PTU.createOrLoadTable(PG.getBudgetPath(), PG.getBudgetSheet(), cols=BUDGET_COLUMNS)
+    actualCost = currentMonthSpending[currentMonthSpending['RatioType'] == ratioType]['Amount'].sum()
     budgetCost = monthlyIncome*percentMonthlyIncome
     months = [
         "January", "February", "March", "April", "May", "June", 
@@ -78,17 +75,14 @@ def insertRow(ratioType, percentMonthlyIncome):
     'Month':[months[CUR_MONTH-1]]
     })
     budget = pd.concat([budget, new_row], ignore_index=True)
-    budget.to_excel(BUDGET_PATH, sheet_name="Budget", engine="openpyxl", index=False)
+    budget.to_excel(PG.getBudgetPath(), sheet_name=PG.getBudgetSheet(), engine="openpyxl", index=False)
 
 def viewPlan():
     currentStep = getCurrentBabyStep()
     loadSheet()
 
     # Handle income sheet
-    try:
-        budget = pd.read_excel(BUDGET_PATH, engine="openpyxl", sheet_name="Budget")
-    except:
-        budget = pd.DataFrame(columns=["RatioType","PercentageMonthlyIncome", "BudgetedCost" ,"ActualCost", "Difference", "Month"])
+    budget = PTU.createOrLoadTable(PG.getBudgetPath(), PG.getBudgetSheet(), cols=BUDGET_COLUMNS)
 
     #windows superiority
     os.system("cls")
@@ -137,8 +131,8 @@ def viewPlan():
     input()
 
 def loadSheet():
-    budget = pd.DataFrame(columns=["RatioType","PercentageMonthlyIncome", "BudgetedCost" ,"ActualCost", "Difference", "Month"])
-    budget.to_excel(BUDGET_PATH, sheet_name="Budget", engine="openpyxl", index=False)
+    budget = pd.DataFrame(columns=BUDGET_COLUMNS)
+    budget.to_excel(PG.getBudgetPath(), sheet_name=PG.getBudgetSheet(), engine="openpyxl", index=False)
     currentStep = getCurrentBabyStep()
     
     if currentStep == 1 or currentStep == 3:

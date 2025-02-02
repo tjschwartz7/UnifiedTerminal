@@ -1,13 +1,15 @@
 import pandas as pd
 import openpyxl
 from datetime import datetime
-import CategoryInputs as CI
+import PyCategoryInputs as CI
 import PyFunctionUtils as PFU
+import PyGlobals as PG
+import PyTableUtils as PTU
 
-MONTHLY_REVENUE_PATH = "Raw/MonthlyRevenue.xlsx"
-MONTHLY_REVENUE_SHEET_NAME = "MonthlyRevenue"
 FREQUENCY_INPUT = CI.CategoryInput("Categories/frequencies.txt")
 INCOME_CATEGORY_INPUT = CI.CategoryInput("Categories/revenueCategories.txt")
+
+REVENUE_COLUMNS = ["Amount", "Frequency", "Source", "State"]
 
 def revenueInput():
     print("What is the post-tax amount on revenue?")
@@ -26,11 +28,7 @@ def revenueSourceInput():
 
 
 def insertNewRow():
-    # Handle revenue sheet
-    try:
-        revenueSheet = pd.read_excel(MONTHLY_REVENUE_PATH, engine="openpyxl", sheet_name=MONTHLY_REVENUE_SHEET_NAME)
-    except:
-        revenueSheet = pd.DataFrame(columns=["Amount", "Frequency", "Source", "State"])
+    revenueSheet = PTU.createOrLoadTable(PG.getMonthlyRevenuePath(), PG.getMonthlyRevenueSheet(), cols=REVENUE_COLUMNS)
     revenue = revenueInput()
     in_freq = revenueFrequencyInput()
     in_src = revenueSourceInput()
@@ -42,15 +40,11 @@ def insertNewRow():
         'State': [state]
     })
     revenueSheet = pd.concat([revenueSheet, new_row], ignore_index=True)
-    revenueSheet.to_excel(MONTHLY_REVENUE_PATH, sheet_name=MONTHLY_REVENUE_SHEET_NAME, engine="openpyxl", index=False)
+    revenueSheet.to_excel(PG.getMonthlyRevenuePath(), sheet_name=PG.getMonthlyRevenueSheet(), engine="openpyxl", index=False)
 
 def query():
 
-    # Handle revenue sheet
-    try:
-        revenueSheet = pd.read_excel(MONTHLY_REVENUE_PATH, engine="openpyxl", sheet_name=MONTHLY_REVENUE_SHEET_NAME)
-    except:
-        revenueSheet = pd.DataFrame(columns=["Amount", "Frequency", "Source", "State"])
+    revenueSheet = PTU.createOrLoadTable(PG.getMonthlyRevenuePath(), PG.getMonthlyRevenueSheet(), cols=REVENUE_COLUMNS)
     while True:
         print("Choose one of the options from below:")
         print("1. Quit")

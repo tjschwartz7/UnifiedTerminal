@@ -3,14 +3,15 @@ import openpyxl
 from datetime import datetime
 import glob
 import PyFunctionUtils as PFU
-import CategoryInputs as CI
+import PyCategoryInputs as CI
+import PyGlobals as PG
+import PyTableUtils as PTU
 
 dir = "./"
 revenueFiles = glob.glob("Raw/*_Revenue.xlsx")
 
 REVENUE_CATEGORY_INPUT = CI.CategoryInput("Categories/revenueCategories.txt")
-
-REVENUE_SHEET_NAME = "Revenue"
+REVENUE_COLUMNS = ["Amount", "Date", "Source", "State"]
 
 def revenueInput():
     print("What was the post-tax amount on earnings?")
@@ -31,11 +32,7 @@ def insertNewRow():
     date = PFU.date_input()
     in_src = revenueSourceInput()
     state = PFU.select_state()
-    revenueSheet = pd.DataFrame()
-    try:
-        revenueSheet = pd.read_excel(f"Raw/{date.year}_Revenue.xlsx", engine="openpyxl", sheet_name=REVENUE_SHEET_NAME)
-    except:
-        revenueSheet = pd.DataFrame(columns=["Amount", "Date", "Source", "State"])
+    revenueSheet = PTU.createOrLoadTable(PG.getRevenuePath(year=date.year), PG.getRevenueSheet(), cols=REVENUE_COLUMNS)
     new_row = pd.DataFrame({
         'Amount': [revenue],
         'Date': [date],
@@ -43,13 +40,13 @@ def insertNewRow():
         'State': [state]
     })
     revenueSheet = pd.concat([revenueSheet, new_row], ignore_index=True)
-    revenueSheet.to_excel(f"Raw/{date.year}_Revenue.xlsx", sheet_name=REVENUE_SHEET_NAME, engine="openpyxl", index=False)
+    revenueSheet.to_excel(PG.getRevenuePath(year=date.year), sheet_name=PG.getRevenueSheet(), engine="openpyxl", index=False)
     return new_row
 
 def query():
     revenueDF = pd.DataFrame()
     for excelFile in revenueFiles:
-        yearDF = pd.read_excel(excelFile, engine="openpyxl", sheet_name=REVENUE_SHEET_NAME)
+        yearDF = pd.read_excel(excelFile, engine="openpyxl", sheet_name=PG.getRevenueSheet())
         revenueDF = pd.concat([revenueDF, yearDF], ignore_index=True)
     while True:
         print("Choose one of the options from below:")
@@ -83,7 +80,7 @@ def query():
                             break
 
                         #This needs initialized beforehand
-                        period_report = pd.DataFrame(columns=["Amount", "Date", "Source", "State"])
+                        period_report = pd.DataFrame(columns=REVENUE_COLUMNS)
 
                         for i in range(0, choice):
                             

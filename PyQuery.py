@@ -1,35 +1,31 @@
 import pandas as pd
 from datetime import datetime
 import glob
+import PyGlobals as PG
 
 DIR = "./"
 TRANSACTION_FILES = glob.glob("Raw/*_Expense.xlsx")
 
 CUR_YEAR = datetime.now().year
 CUR_MONTH = datetime.now().month
-BUDGET_PATH = f"Raw/{CUR_YEAR}{CUR_MONTH}_MonthlyPlan.xlsx"
-TRANSACTION_PATH = f"Raw/{CUR_YEAR}_Expense.xlsx"
-ACCOUNT_PATH = "Raw/Account.xlsx"
-INCOME_PATH = "Raw/Income.xlsx"
-EXPENSE_PATH = "Raw/Expense.xlsx"
 
 
 def getTotalLiquidity(): 
-    accounts = pd.read_excel(ACCOUNT_PATH, engine="openpyxl", sheet_name="Account")
+    accounts = pd.read_excel(PG.getAccountPath(), engine="openpyxl", sheet_name=PG.getAccountSheet())
 
     assets = accounts[accounts['AccountType'] == 'Debit']
     liquidity = assets[assets['IsLiquid']]['AccountBalance'].sum()
     return liquidity
 
 def getTotalIlliquidity():
-    accounts = pd.read_excel(ACCOUNT_PATH, engine="openpyxl", sheet_name="Account")
+    accounts = pd.read_excel(PG.getAccountPath(), engine="openpyxl", sheet_name=PG.getAccountSheet())
 
     assets = accounts[accounts['AccountType'] == 'Debit']
     illiquidity = assets[assets['IsLiquid'] == False]['AccountBalance'].sum()
     return illiquidity
 
 def getDebtTable():
-    accounts = pd.read_excel(ACCOUNT_PATH, engine="openpyxl", sheet_name="Account")
+    accounts = pd.read_excel(PG.getAccountPath(), engine="openpyxl", sheet_name=PG.getAccountSheet())
 
     debt = accounts[(accounts['AccountType'] == 'Credit')]
     return debt
@@ -41,7 +37,7 @@ def getNonMortgageDebtTable():
 
 
 def getAssetsTable():
-    accounts = pd.read_excel(ACCOUNT_PATH, engine="openpyxl", sheet_name="Account")
+    accounts = pd.read_excel(PG.getAccountPath(), engine="openpyxl", sheet_name=PG.getAccountSheet())
 
     assets = accounts[accounts['AccountType'] == 'Debit']
     return assets
@@ -63,7 +59,7 @@ def getMortgage():
 
 def calculateMonthlyIncome():
     
-    income = pd.read_excel(INCOME_PATH, engine="openpyxl", sheet_name="Income")
+    income = pd.read_excel(PG.getMonthlyRevenuePath(), engine="openpyxl", sheet_name=PG.getMonthlyRevenueSheet())
 
     incomeByFrequency = income.groupby("IncomeFrequency")['IncomeAmount'].sum()
     monthlyIncome = 0
@@ -95,9 +91,9 @@ def calculateMonthlyIncome():
 
 
 def calculateMonthlyExpense():
-    expense = pd.read_excel(EXPENSE_PATH, engine="openpyxl", sheet_name="Expense")
+    expense = pd.read_excel(PG.getMonthlyExpensePath(), engine="openpyxl", sheet_name=PG.getMonthlyExpenseSheet())
 
-    expenseByFrequency = expense.groupby("ExpenseFrequency")['ExpenseAmount'].sum()
+    expenseByFrequency = expense.groupby("Frequency")['Amount'].sum()
     monthlyExpense = 0
     try:
         sum = expenseByFrequency.loc['Weekly'] * 4
@@ -126,7 +122,7 @@ def calculateMonthlyExpense():
     return monthlyExpense
 
 def getSavingsAccountsTable():
-    accounts = pd.read_excel(ACCOUNT_PATH, engine="openpyxl", sheet_name="Account")
+    accounts = pd.read_excel(PG.getAccountPath(), engine="openpyxl", sheet_name=PG.getAccountSheet())
     savingsAccounts = accounts[accounts['AccountName'] == 'Savings']
     return savingsAccounts
 
@@ -136,12 +132,12 @@ def getTotalAssets():
     return currentSavings
 
 def getExpenseIncomeTable():
-    accountTable = pd.read_excel(ACCOUNT_PATH, engine="openpyxl", sheet_name="Account")
+    accountTable = pd.read_excel(PG.getAccountPath(), engine="openpyxl", sheet_name=PG.getAccountSheet())
     expenseIncomeTable = accountTable.groupby('AccountType')['AccountBalance'].sum()
     return expenseIncomeTable
 
 def getSpendByCategory():
-    transactionTable = pd.read_excel(TRANSACTION_PATH, engine="openpyxl", sheet_name="Transaction")
+    transactionTable = pd.read_excel(PG.getExpensePath(), engine="openpyxl", sheet_name=PG.getExpenseSheet())
     spendByCategoryTable = transactionTable.groupby('TransactionCategory')['TransactionAmount']
     return spendByCategoryTable
 
@@ -151,6 +147,6 @@ def getPostExpenseTotal():
     return totalIncome - totalExpenses
 
 def getBabyStepsBudgetActualSpend():
-    budget = pd.read_excel(BUDGET_PATH, engine="openpyxl", sheet_name="Budget")
+    budget = pd.read_excel(PG.getBudgetPath(), engine="openpyxl", sheet_name=PG.getBudgetSheet())
     actualSpend = budget[budget['RatioType'] == 'Debt']['ActualCost'].sum()
     return actualSpend

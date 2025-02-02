@@ -107,3 +107,15 @@ def genericDeleteRow(path, sheetName):
                 print("Invalid selection. Please try again.")
     except Exception as e:
         print(f"Error: {e}")
+
+def createOrLoadTable(filepath, sheetname, cols=[]):
+    try:
+        table = pd.read_excel(filepath, engine="openpyxl", sheet_name=sheetname)
+    except:
+        # Handle no existing sheet case
+        table = pd.DataFrame(columns=cols)
+    return table
+
+def createNewTable(cols=[]):
+    return pd.DataFrame(columns=cols)
+

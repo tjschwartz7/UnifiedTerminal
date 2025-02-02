@@ -1,24 +1,17 @@
 import pandas as pd
-import openpyxl
 from datetime import datetime
 import PyQuery as PQ
-import os
-import CategoryInputs as CI
-
-ACCOUNT_PATH = "Raw/Account.xlsx"
+import PyCategoryInputs as CI
+import PyGlobals as PG
+import PyTableUtils as PTU
 
 ACCOUNT_CATEGORY_INPUT = CI.CategoryInput("Categories/accounts.txt")
 BANK_CATEGORY_INPUT = CI.CategoryInput("Categories/banks.txt")
 LIABILITY_CATEGORY_INPUT = CI.CategoryInput("Categories/liability.txt")
+ACCOUNT_COLUMNS = ["AccountName","AccountType", "BankName" ,"AccountBalance", "InterestRate", "IsLiquid"]
 
 def getAccountTable():
-    
-    try:
-        accountTable = pd.read_excel(ACCOUNT_PATH, engine="openpyxl", sheet_name="Account")
-    except:
-        # Handle no existing sheet case
-        accountTable = pd.DataFrame(columns=["AccountName","AccountType", "BankName" ,"AccountBalance", "InterestRate", "IsLiquid"])
-    return accountTable
+    return PTU.createOrLoadTable(PG.getAccountPath(), PG.getAccountSheet(), cols=ACCOUNT_COLUMNS)
 
 def bankInput():
     return BANK_CATEGORY_INPUT.get_category()
@@ -58,7 +51,7 @@ def updateInterestRate():
                 print("Invalid choice. Please select a valid column number.")
         except Exception as e:
             print(f"Error: {e}. Please try again.")
-    accountTable.to_excel(ACCOUNT_PATH, sheet_name="Account", engine="openpyxl", index=False)
+    accountTable.to_excel(PG.getAccountPath(), sheet_name=PG.getAccountSheet(), engine="openpyxl", index=False)
 
 def updateCreditBalance(transactionCost):
     # Handle income sheet
@@ -79,7 +72,7 @@ def updateCreditBalance(transactionCost):
                 print("Invalid selection.")
         except Exception as e:
             print(f"Error: {e}. Please try again.")
-    accountTable.to_excel(ACCOUNT_PATH, sheet_name="Account", engine="openpyxl", index=False)
+    accountTable.to_excel(PG.getAccountPath(), sheet_name=PG.getAccountSheet(), engine="openpyxl", index=False)
 
 def updateDebitBalance(transactionCost):
     accountTable = getAccountTable()
@@ -96,7 +89,7 @@ def updateDebitBalance(transactionCost):
             break
         except Exception as e:
             print(f"Error: {e}. Please try again.")
-    accountTable.to_excel(ACCOUNT_PATH, sheet_name="Account", engine="openpyxl", index=False)
+    accountTable.to_excel(PG.getAccountPath(), sheet_name=PG.getAccountSheet(), engine="openpyxl", index=False)
 
 def updateAccountBalance():
     accountTable = getAccountTable()
@@ -118,7 +111,7 @@ def updateAccountBalance():
                 print("Invalid choice. Please select a valid column number.")
         except Exception as e:
             print(f"Error: {e}. Please try again.")
-    accountTable.to_excel(ACCOUNT_PATH, sheet_name="Account", engine="openpyxl", index=False)
+    accountTable.to_excel(PG.getAccountPath(), sheet_name=PG.getAccountSheet(), engine="openpyxl", index=False)
 
 def liquidityInput():
     while True:
@@ -173,7 +166,7 @@ def alterBalanceOnTwoAccounts(transactionCost):
                 print("Invalid selection.")
         except Exception as e:
             print(f"Error: {e}. Please try again.")
-    accountTable.to_excel(ACCOUNT_PATH, sheet_name="Account", engine="openpyxl", index=False)
+    accountTable.to_excel(PG.getAccountPath(), sheet_name=PG.getAccountSheet(), engine="openpyxl", index=False)
 
 def insertNewRow():
     accountTable = getAccountTable()
@@ -192,7 +185,7 @@ def insertNewRow():
         'IsLiquid': [isLiquid]
     })
     accountTable = pd.concat([accountTable, new_row], ignore_index=True)
-    accountTable.to_excel(ACCOUNT_PATH, sheet_name="Account", engine="openpyxl", index=False)
+    accountTable.to_excel(PG.getAccountPath(), sheet_name=PG.getAccountSheet(), engine="openpyxl", index=False)
 
 def query():
     accountTable = getAccountTable()

@@ -3,6 +3,7 @@ from datetime import datetime
 import PyExpense as PT
 import PyAccount as PA
 import PyRevenue as PE
+import PyGlobals as PG
 import PyTableUtils as PTU
 
 
@@ -50,14 +51,14 @@ def updateTableValue():
                 print("Exiting...")
                 break
             elif choice == 2:
-                PTU.genericUpdateValue("Raw/Account.xlsx", "Account")
+                PTU.genericUpdateValue(PG.getAccountPath(), PG.getAccountSheet())
 
             elif choice == 3:
                 year = datetime.now().year
-                PTU.genericUpdateValue(f"Raw/{year}_Expense.xlsx", "Expense")
+                PTU.genericUpdateValue(PG.getExpensePath(year=year), PG.getExpenseSheet())
             elif choice == 4:
                 year = datetime.now().year
-                PTU.genericUpdateValue(f"Raw/{year}_Revenue.xlsx", "Revenue")
+                PTU.genericUpdateValue(PG.getRevenuePath(year=year), PG.getRevenueSheet())
             else:
                 print("Invalid choice. Please try again.")
         except Exception as e:
@@ -74,14 +75,14 @@ def deleteTableRow():
                 print("Exiting...")
                 break
             elif choice == 2:
-                PTU.genericDeleteRow("Raw/Account.xlsx", "Account")
+                PTU.genericDeleteRow(PG.getAccountPath(), PG.getAccountSheet())
 
             elif choice == 3:
                 year = datetime.now().year
-                PTU.genericDeleteRow(f"Raw/{year}_Expense.xlsx", "Expense")
+                PTU.genericDeleteRow(PG.getExpensePath(year=year), PG.getExpenseSheet())
             elif choice == 4:
                 year = datetime.now().year
-                PTU.genericDeleteRow(f"Raw/{year}_Revenue.xlsx", "Revenue")
+                PTU.genericDeleteRow(PG.getRevenuePath(year=year), PG.getRevenueSheet())
             else:
                 print("Invalid choice. Please try again.")
         except Exception as e:

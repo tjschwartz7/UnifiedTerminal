@@ -1,12 +1,12 @@
 import pandas as pd
 from datetime import datetime
-import CategoryInputs as CI
+import PyCategoryInputs as CI
+import PyTableUtils as PTU
+import PyGlobals as PG
 
 EXPENSE_CATEGORY_INPUT = CI.CategoryInput("Categories/expenseCategories.txt")
 FREQUENCY_INPUT = CI.CategoryInput("Categories/frequencies.txt")
 LIABILITY_CATEGORY_INPUT = CI.CategoryInput("Categories/liability.txt")
-MONTHLY_EXPENSE_PATH = "Raw/MonthlyExpense.xlsx"
-MONTHLY_EXPENSE_SHEET_NAME = "MonthlyExpense"
 MONTHLY_EXPENSE_COLUMNS = ["Amount", "Frequency","Category", "Method", "Description"]
 
 def expenseInput():
@@ -33,11 +33,7 @@ def descriptionInput():
     return input("Enter a description of this expense (Optional): ")
 
 def insertNewRow():
-    # Handle income sheet
-    try:
-        expenseSheet = pd.read_excel(MONTHLY_EXPENSE_PATH, engine="openpyxl", sheet_name=MONTHLY_EXPENSE_SHEET_NAME)
-    except:
-        expenseSheet = pd.DataFrame(columns=MONTHLY_EXPENSE_COLUMNS)
+    expenseSheet = PTU.createOrLoadTable(PG.getMonthlyExpensePath(),PG.getMonthlyExpenseSheet(), cols=MONTHLY_EXPENSE_COLUMNS)
     income = expenseInput()
     exp_freq = expenseFrequencyInput()
     exp_cat = expenseCategoryInput()
@@ -51,12 +47,13 @@ def insertNewRow():
         'Description' : [description]
     })
     expenseSheet = pd.concat([expenseSheet, new_row], ignore_index=True)
-    expenseSheet.to_excel(MONTHLY_EXPENSE_PATH, sheet_name=MONTHLY_EXPENSE_SHEET_NAME, engine="openpyxl", index=False)
+    expenseSheet.to_excel(PG.getMonthlyExpensePath(), sheet_name=PG.getMonthlyExpenseSheet(), engine="openpyxl", index=False)
 
 def query():
+    expenseSheet = PTU.createOrLoadTable(PG.getMonthlyExpensePath(),PG.getMonthlyExpenseSheet(), cols=MONTHLY_EXPENSE_COLUMNS)
     # Handle income sheet
     try:
-        expenseSheet = pd.read_excel(MONTHLY_EXPENSE_PATH, engine="openpyxl", sheet_name=MONTHLY_EXPENSE_SHEET_NAME)
+        expenseSheet = pd.read_excel(PG.getMonthlyExpensePath(), engine="openpyxl", sheet_name=PG.getMonthlyExpenseSheet())
     except:
         expenseSheet = pd.DataFrame(columns=MONTHLY_EXPENSE_COLUMNS)
     while True:
