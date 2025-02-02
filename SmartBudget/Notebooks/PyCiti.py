@@ -11,9 +11,9 @@ from delta.tables import DeltaTable
 RAW_SRC_PATH = "Raw/"
 RAW_HISTORY_PATH = RAW_SRC_PATH+'History/'
 
-ENRICHED_DELTA_PATH = 'Enriched/Citi/'
-ENRICHED_DELTA_FILE_NAME = 'CitiTable.parquet'
-ENRICHED_DELTA_FILE_PATH = ENRICHED_DELTA_PATH + ENRICHED_DELTA_FILE_NAME
+ENRICHED_PATH = 'Enriched/Citi/'
+ENRICHED_FILE_NAME = 'CitiTable.parquet'
+ENRICHED_FILE_PATH = ENRICHED_PATH + ENRICHED_FILE_NAME
 
 
 #Extract the csv file into a dataframe
@@ -55,71 +55,7 @@ def Load():
     #And easier to use in my opinion.
     dataframe = PTU.addCrcHash(dataframe)
 
-    #.config("spark.jars.packages", "io.delta:delta-core_2.12:1.0.0") \
-    #.config("hadoop.home.dir", " C:/Users/tjsch/AppData/Local/Programs/Python/Python311/Lib/site-packages") \
-
-    # Initialize Spark session
-    spark = SparkSession.builder \
-        .appName("DeltaCheckCreate") \
-        .getOrCreate()
-
-
-    # Check if the Delta table exists at the specified path
-    if not os.path.exists(ENRICHED_DELTA_FILE_PATH):
-        print(f"Delta table does not exist at {ENRICHED_DELTA_FILE_PATH}. Creating an empty Delta table.")
-        
-        spark.sql(
-            f"""
-            CREATE TABLE IF NOT EXISTS citi (
-                Status STRING NOT NULL,
-                Date DATE NOT NULL,
-                Description STRING NOT NULL,
-                Debit FLOAT NOT NULL,
-                Credit FLOAT NOT NULL,
-                CRC32 STRING NOT NULL
-            )
-            USING PARQUET
-            LOCATION '{ENRICHED_DELTA_PATH}';
-            """
-        )
-        
-        
-        # Load the newly created empty Delta table
-        delta_table_dest = DeltaTable.forPath(spark, ENRICHED_DELTA_PATH)
-        print(f"Empty Delta table created at {ENRICHED_DELTA_PATH}.")
-    else:
-        # If the Delta table exists, load it
-        delta_table_dest = DeltaTable.forPath(spark, ENRICHED_DELTA_PATH)
-        print(f"Delta table already exists at {ENRICHED_DELTA_PATH}.")
-
-
-    delta_table_src = DeltaTable.from_pandas(dataframe)
-
-     # Perform the merge operation
-    delta_table_dest.alias("target").merge(
-        delta_table_src.alias("source"),
-        "target.CRC32 = source.CRC32"  # Merge condition on CRC32 column
-    ).whenMatchedUpdate(
-        condition="target.CRC32 = source.CRC32",  # Update only if CRC32 matches
-        set={
-            "Debit": "source.Debit",
-            "Credit": "source.Credit",
-            "Description": "source.Description",
-            "Date": "source.Date",
-            "Status": "source.Status"
-        }
-    ).whenNotMatchedInsert(
-        values={
-            "Debit": "source.Debit",
-            "Credit": "source.Credit",
-            "Description": "source.Description",
-            "Date": "source.Date",
-            "Status": "source.Status",
-            "CRC32": "source.CRC32"
-        }
-    ).execute()
-
-    delta_table_dest.toDF().show()
+    PTU.upsert_parquet(dataframe, ENRICHED_FILE_PATH, key_columns=['CRC32'])
 
 
 if __name__ == "__main__":
