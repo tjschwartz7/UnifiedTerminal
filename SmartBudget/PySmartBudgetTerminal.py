@@ -5,13 +5,17 @@ from datetime import datetime
 import os
 
 if __name__ == "__main__":
+    os.chdir('SmartBudget/')
+    try:
+        cmd = ["python", "Notebooks/PyCiti.py"]
+        subprocess.run(cmd, check=True)
+    except Exception as e:
+        print(f"Error: {e}")
 
     while True:
         
         print("Choose one of the options from below:")
         print("1. Quit")
-        print("2. Manual Budget Terminal")
-        print("3. Smart Budget Terminal")
         
         try:
             choice = int(input("Selection: "))
@@ -19,14 +23,6 @@ if __name__ == "__main__":
             if choice == 1:
                 print("Thanks for using PyBudget! :)")
                 break
-            elif choice == 2:
-                cmd = ["python", "ManualBudget/PyManualBudgetTerminal.py"]
-                subprocess.run(cmd, check=True)
-                os.chdir('../')
-            elif choice == 3:
-                cmd = ["python", "SmartBudget/PySmartBudgetTerminal.py"]
-                subprocess.run(cmd, check=True)
-                os.chdir('../')
 
             
         except Exception as e:

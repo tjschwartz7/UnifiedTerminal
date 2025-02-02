@@ -7,7 +7,7 @@ import os
 if __name__ == "__main__":
 
 
-    os.chdir('Budget/')
+    os.chdir('ManualBudget/')
     while True:
         print("Choose one of the options from below:")
         print("1. Quit")

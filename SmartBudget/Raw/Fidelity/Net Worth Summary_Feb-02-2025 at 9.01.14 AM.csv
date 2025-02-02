@@ -1,0 +1,64 @@
+﻿Net Worth Summary: 
+"The summary presented is a snapshot of your assets and liabilities at a particular point in time. Assets include your house, cars, bank accounts, investments, cash value of your life insurance policies, and other personal property."
+"Typical liabilities are your mortgage and auto loans, credit cards, and other debts. Your net worth is the difference between these two values. In theory, if you sold all your assets and paid off all your liabilities, your net worth is the amount you would have left over before taxes."
+"Your net worth represents the difference between your assets and your liabilities."
+
+"Type","Sub Type","Account Name","Institution","Balance","Balance As Of","Hidden"
+"Total Assets Value","","","","$9,014.87","",""
+"Total Liabilities Values","","","","$0.00","",""
+"Cash equivalents","","","","$0.00","",""
+"Investments","","","","$9,014.87","",""
+"Brokerage","Brokerage","Individual","Fidelity Investments","$0.03","Feb-02-2025","No"
+"Brokerage","Brokerage","ROTH IRA","Fidelity Investments","$9,014.84","Feb-02-2025","No"
+"WPS","Defined Contributions","TEXTRON SAVINGS PLAN","Fidelity Investments","$0.00","Feb-02-2025","No"
+"Real estate","","","","$0.00","",""
+"Other","","","","$0.00","",""
+"Credit cards","","","","$0.00","",""
+"Loans","","","","$0.00","",""
+
+Date downloaded 02/02/2025  9:01 AM
+
+"Helpful definitions:"
+"Type: Represents the type of asset or liability included in your Net Worth."
+"Subtype: Represents a more specific classification within an asset or liability type and provides details about the nature of the asset or liability."
+"Account name: Represents which account was used for the transaction."
+"Institution name: The institution name"
+"Balance: The balance of the account as of the date specified"
+"Hidden: Represents whether a transaction you have chosen to hide this account from your Net Worth summary. This value is simply a Yes if you have chosen to hide this account. Otherwise, this will display as a No."
+"As of: Reflects when Fidelity last retrieved the information and may not be indicative of the actual valuation date and/or time of the balance displayed."
+
+"As presented, your Net Worth is an estimate based on the information available to Fidelity as of the time and date of the display. It is provided as a convenience for informational purposes only."
+"Your actual net worth may be substantially different than what is displayed. You may have other assets or liabilities which are not reflected in the estimate presented."
+"The Net Worth display is not a substitute for, and should not be considered, your account statement or official statement of your assets and liabilities."
+"As always, you should refer to your official account statements to compile a complete and accurate inventory of your accounts."
+
+"You are also strongly encouraged to review your official account statements and compare them against the values and other information contained in the report(s)."
+"In the case of any discrepancy, you should rely on your official account statements as the most accurate source of information."
+"Questions regarding any account listed on the reports should be directed to the customer contact information identified on the official account statement."
+
+"Your Net Worth display may include accounts held outside Fidelity or manually entered valuations. To add accounts held outside Fidelity, you may have used the data aggregation capabilities made available to you as a Fidelity customer via Full View®."
+"Any information aggregated via Full View will be automatically reflected in your Net Worth display and refreshed periodically. You may also have manually entered asset and liability information in a Fidelity online experience."
+"While this information may be automatically reflected in your Net Worth display, this information will remain static until you manually update it."
+"Use the Full View Link capability to add outside assets or liabilities or to edit the information presented regarding non-Fidelity assets and any liabilities you may have."
+
+"Fidelity is not able to verify the accuracy of the information displayed regarding accounts held at financial institutions other than Fidelity, nor can Fidelity verify the accuracy of any manually entered information regarding your assets and liabilities."
+"NOTE: Your Net Worth will be over-stated by any accounts displayed which you do not own, but with respect to which you have a beneficial interest."
+"For example, if you have been granted ""Inquiry Only"" access to a spouse’s account, this account will display and impact the calculation of your Net Worth, even though you do not legally own that asset."
+"Additional examples include Fidelity Investments Charitable Gift Fund accounts, certain irrevocable trusts for which you are the trustee, UGMA/UTMA accounts for which you are the custodian, and Internal Revenue Code Section 529 college savings plan accounts of which you are not the beneficiary."
+"Although these accounts are linked to your tax identification number, generally, these accounts should not be counted towards your Net Worth. You may remove these accounts from the calculation by using the hide functionality."
+
+"For other information about the data included in this summary, please view the “Accounts” and “Net Worth” disclosures displayed at the bottom of the Net Worth page."
+
+"Full View® is an account aggregation service (the “Service”) operated by eMoney Advisor, LLC, a Fidelity affiliate. This Service is made available to you as a Fidelity customer at no additional charge and is subject to certain limitations and restrictions."
+"The Terms of Service, Privacy Policy, and Security Policy that govern your use of Full View differ from those applicable to your experience at Fidelity. Review carefully prior to use. Full View® is a registered service mark of FMR LLC."
+
+"Securities in accounts carried by National Financial Services LLC (NFS), a Fidelity investments company, are protected in accordance with the Securities Investor Protection Corporation (SIPC)."
+"SIPC coverage only applies to those assets that are held at the firm."
+"Fidelity Distributors Corporation (FDC) is the distributor for Fidelity Funds and Fidelity Brokerage Services LLC (FBS) acts as agent for FDC with respect to Fidelity Mutual Fund Accounts."
+"These accounts are held directly with the fund and are not carried by NFS or covered by SIPC."
+
+"Brokerage services are provided by Fidelity Brokerage Services LLC, 900 Salem Street, Smithfield, RI 02917. Custody and other services provided by National Financial Services LLC."
+"Both are Fidelity Investment companies and members SIPC, NYSE. Insurance products at Fidelity are distributed by Fidelity Insurance Agency, Inc., and, for certain products, by Fidelity Brokerage Services, Member NYSE, SIPC."
+
+"1159832.1.0"
+
