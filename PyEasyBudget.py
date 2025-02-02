@@ -12,6 +12,7 @@ if __name__ == "__main__":
         print("2. Monthly")
         print("3. Accounts")
         print("4. Budgeting")
+        print("5. Create backup")
         
         try:
             choice = int(input("Selection: "))
@@ -27,6 +28,9 @@ if __name__ == "__main__":
                 subprocess.run(cmd, check=True)
             elif choice == 4:
                 cmd = ["python", "PyBudget.py"]
+                subprocess.run(cmd, check=True)
+            elif choice == 5:
+                cmd = ["python", "PyBackup.py"]
                 subprocess.run(cmd, check=True)
             
         except Exception as e:
