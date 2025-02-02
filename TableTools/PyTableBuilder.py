@@ -1,6 +1,5 @@
 import pandas as pd
 from datetime import datetime
-import PyTableUtils as PTU
 
 if __name__ == "__main__":
 
@@ -12,7 +11,7 @@ if __name__ == "__main__":
             choice = int(input("Selection: "))
 
             if choice == 1:
-                print("Thanks for using PyBudget! :)")
+                
                 break
             
         except Exception as e:
