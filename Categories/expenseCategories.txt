@@ -1,0 +1,20 @@
+Grocery
+Entertainment
+Health
+Dining
+Coffee
+Investment
+Education
+Rent
+Insurance
+Medical
+Travel
+Gas
+Vacation
+Books
+Therapy
+Vehicle Maintenance
+Gym
+Mortgage
+Car Payment
+Car Insurance
