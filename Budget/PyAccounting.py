@@ -1,18 +1,18 @@
 import pandas as pd
 from datetime import datetime
-import PyExpense as PT
+import PyExpense as PE
 import PyAccount as PA
-import PyRevenue as PE
+import PyRevenue as PR
 import PyGlobals as PG
 import PyTableUtils as PTU
 
 
 def newTransaction():
-    insertedRow = PT.insertNewRow()
+    insertedRow = PE.insertNewRow()
     if insertedRow.loc[0, 'PaymentMethod'] == 'Credit':
         PA.updateCreditBalance(insertedRow.loc[0, 'Amount'])
     else:
-        PA.updateDebitBalance(insertedRow.loc[0, 'Amount'])
+        PA.updateDebitBalance(insertedRow.loc[0, 'Amount']*-1) #Negative because its a cost
 
 def newEarnings():
     insertedRow = PE.insertNewRow()
@@ -23,7 +23,7 @@ def query():
     while True:
         try:
             print("\nEnter your choice from the options below:")
-            print("1. Quit\n2. Account\n3. Transaction\n4. Earnings")
+            print("1. Quit\n2. Account\n3. Expense\n4. Revenue")
             choice = int(input())
 
             if choice == 1:
@@ -32,9 +32,9 @@ def query():
             elif choice == 2:
                 PA.query()
             elif choice == 3:
-                PT.query()
-            elif choice == 4:
                 PE.query()
+            elif choice == 4:
+                PR.query()
             else:
                 print("Invalid choice. Please try again.")
         except Exception as e:
@@ -68,7 +68,7 @@ def deleteTableRow():
     while True:
         try:
             print("\nEnter your choice from the options below:")
-            print("1. Go back\n2. Account\n3. Transaction\n4. Earnings")
+            print("1. Go back\n2. Account\n3. Expense\n4. Revenue")
             choice = int(input())
 
             if choice == 1:
@@ -120,7 +120,7 @@ def menu():
                 print("Exiting...")
                 break
             elif choice == 2:
-                PA.alterBalanceOnTwoAccounts(PT.costInput())
+                PA.alterBalanceOnTwoAccounts(PE.costInput())
 
             elif choice == 3:
                 newTransaction()
