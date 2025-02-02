@@ -1,11 +1,8 @@
 import pandas as pd
 from datetime import datetime
-import glob
 import PyGlobals as PG
 
 DIR = "./"
-TRANSACTION_FILES = glob.glob("Raw/*_Expense.xlsx")
-
 CUR_YEAR = datetime.now().year
 CUR_MONTH = datetime.now().month
 
@@ -61,7 +58,7 @@ def calculateMonthlyIncome():
     
     income = pd.read_excel(PG.getMonthlyRevenuePath(), engine="openpyxl", sheet_name=PG.getMonthlyRevenueSheet())
 
-    incomeByFrequency = income.groupby("IncomeFrequency")['IncomeAmount'].sum()
+    incomeByFrequency = income.groupby("Frequency")['Amount'].sum()
     monthlyIncome = 0
     try:
         sum = incomeByFrequency.loc['Weekly'] * 4
@@ -138,7 +135,7 @@ def getExpenseIncomeTable():
 
 def getSpendByCategory():
     transactionTable = pd.read_excel(PG.getExpensePath(), engine="openpyxl", sheet_name=PG.getExpenseSheet())
-    spendByCategoryTable = transactionTable.groupby('TransactionCategory')['TransactionAmount']
+    spendByCategoryTable = transactionTable.groupby('Category')['Amount']
     return spendByCategoryTable
 
 def getPostExpenseTotal():

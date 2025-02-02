@@ -37,9 +37,7 @@ def convert_to_dtype(value, dtype):
 
 
 
-def genericUpdateValue(path, sheetName):
-    print("Please be very careful using this function to maintain consistency with the data.")
-    print("Values are NOT checked for correctness in this function!")
+def genericUpdateValue(path, sheetName, custom_prompt="Enter the new value:"):
 
     dataframe = pd.read_excel(path, engine="openpyxl", sheet_name=sheetName)
     try:
@@ -63,15 +61,18 @@ def genericUpdateValue(path, sheetName):
                 current_value = dataframe.at[row, colName]
                 current_dtype = dataframe[colName].dtype
 
+
+
                 # Get the new value from the user
                 while True:
-                    new_value = input(f"Enter the new value (type: {current_dtype}): ")
                     try:
-                        # Convert the input to the appropriate data type
+                        new_value = input(f"Enter the new value (type: {current_dtype}): ")
                         converted_value = convert_to_dtype(new_value, current_dtype)
+                        
                         break  # Exit the loop if conversion is successful
                     except ValueError as e:
-                        print(f"Error: {e}. Please try again.")
+                        print(f"Error: {e}. The passed value was invalid.") 
+                        
                 dataframe.loc[row, colName] = converted_value
                 dataframe.to_excel(path, sheet_name=sheetName, engine="openpyxl", index=False)
                 break
