@@ -22,11 +22,10 @@ if __name__ == "__main__":
             elif choice == 2:
                 cmd = ["python", "ManualBudget/PyManualBudgetTerminal.py"]
                 subprocess.run(cmd, check=True)
-                os.chdir('../')
             elif choice == 3:
                 cmd = ["python", "SmartBudget/PySmartBudgetTerminal.py"]
                 subprocess.run(cmd, check=True)
-                os.chdir('../')
+
 
             
         except Exception as e:

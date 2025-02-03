@@ -4,13 +4,23 @@ import subprocess
 from datetime import datetime
 import os
 
-if __name__ == "__main__":
-    os.chdir('SmartBudget/')
+def run_notebooks():
     try:
         cmd = ["python", "Notebooks/PyCiti.py"]
         subprocess.run(cmd, check=True)
+
+        cmd = ["python", "Notebooks/PyFidelity.py"]
+        subprocess.run(cmd, check=True)
+
+        cmd = ["python", "Notebooks/PyMarcus.py"]
+        subprocess.run(cmd, check=True)
+
     except Exception as e:
         print(f"Error: {e}")
+
+if __name__ == "__main__":
+    os.chdir('SmartBudget/')
+    run_notebooks()
 
     while True:
         
