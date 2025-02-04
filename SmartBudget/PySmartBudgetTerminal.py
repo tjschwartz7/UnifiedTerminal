@@ -15,6 +15,12 @@ def run_notebooks():
         cmd = ["python", "Notebooks/PyMarcus.py"]
         subprocess.run(cmd, check=True)
 
+        cmd = ["python", "Notebooks/PyLormet.py"]
+        subprocess.run(cmd, check=True)
+
+        cmd = ["python", "Notebooks/PyTransform.py"]
+        subprocess.run(cmd, check=True)
+
     except Exception as e:
         print(f"Error: {e}")
 
