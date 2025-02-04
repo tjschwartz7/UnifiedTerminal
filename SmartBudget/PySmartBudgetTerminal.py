@@ -18,7 +18,7 @@ def run_notebooks():
         cmd = ["python", "Notebooks/PyLormet.py"]
         subprocess.run(cmd, check=True)
 
-        cmd = ["python", "Notebooks/PyTransform.py"]
+        cmd = ["python", "Notebooks/PyFactAccount.py"]
         subprocess.run(cmd, check=True)
 
     except Exception as e:
