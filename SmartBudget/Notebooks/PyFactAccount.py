@@ -8,10 +8,9 @@ SRC_ENRICHED_LORMET_PATH = "Enriched/Lormet/LormetTable.parquet"
 SRC_ENRICHED_FIDELITY_PATH = "Enriched/Fidelity/FidelityTable.parquet"
 SRC_ENRICHED_MARCUS_PATH = "Enriched/Marcus/MarcusTable.parquet"
 SRC_ENRICHED_CITI_PATH = "Enriched/Citi/CitiTable.parquet"
-
 DEST_CURATED_PATH = 'Curated/FactAccount.parquet'
 
-COLUMNS=['Date', 'Balance', 'Credits', 'Debits', 'Type', 'Sub Type', 'Name,' 'Institution', 'Description', 'CRC32']
+COLUMNS=['Date', 'Balance', 'Credit', 'Debit', 'Type', 'Sub Type', 'Name,' 'Institution', 'Description', 'CRC32']
 
 def Transform():
     lormetDF = pd.read_parquet(SRC_ENRICHED_LORMET_PATH)
@@ -66,12 +65,15 @@ def Transform():
 
         print(citiDF)
 
+        # Convert to float
+        fidelityDF['Balance'] = fidelityDF['Balance'].str.replace('[$, ]', '', regex=True).astype(float)
+
         fidelityDF = fidelityDF.rename(columns={'Balance As Of': 'Date', 'Account Name': 'Name'})
         fidelityDF.drop(columns=["Hidden"], errors="ignore", inplace=True)
         fidelityDF['Institution'] = 'Fidelity Investments'
         fidelityDF['Date'] = pd.to_datetime(fidelityDF['Date'])
+        fidelityDF = fidelityDF.dropna(subset=['Date'])
         fidelityDF.reindex(columns=COLUMNS)
-
 
         print(fidelityDF)
         factDF = pd.DataFrame(columns=COLUMNS)
