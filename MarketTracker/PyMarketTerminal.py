@@ -9,6 +9,12 @@ def run_notebooks():
         cmd = ["python", "Notebooks/PySP.py"]
         subprocess.run(cmd, check=True)
 
+        cmd = ["python", "Notebooks/PyTickerTool.py"]
+        subprocess.run(cmd, check=True)
+
+        cmd = ["python", "Notebooks/PyFactMarket.py"]
+        subprocess.run(cmd, check=True)
+
     except Exception as e:
         print(f"Error: {e}")
 
