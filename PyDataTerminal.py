@@ -5,7 +5,6 @@ from datetime import datetime
 import os
 
 if __name__ == "__main__":
-
     while True:
         
         print("Choose one of the options from below:")
@@ -13,6 +12,7 @@ if __name__ == "__main__":
         print("2. Manual Budget Terminal")
         print("3. Smart Budget Terminal")
         print("4. Market Tracker")
+        print('5. Notetaking')
         
         try:
             choice = int(input("Selection: "))
@@ -29,7 +29,9 @@ if __name__ == "__main__":
             elif choice == 4:
                 cmd = ["python", "MarketTracker/PyMarketTerminal.py"]
                 subprocess.run(cmd, check=True)
-            
+            elif choice == 5:
+                cmd = ["python", "Notes/PyNotes.py"]
+                subprocess.run(cmd, check=True)
         except Exception as e:
             print(f"Invalid selection: {e}") 
 

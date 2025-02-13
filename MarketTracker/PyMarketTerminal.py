@@ -20,6 +20,7 @@ def run_notebooks():
 
 if __name__ == "__main__":
     os.chdir('MarketTracker/')
+    print(os.getcwd())
     run_notebooks()
 
     while True:

@@ -25,6 +25,7 @@ def run_notebooks():
         print(f"Error: {e}")
 
 if __name__ == "__main__":
+    print(os.getcwd())
     os.chdir('SmartBudget/')
     run_notebooks()
 
