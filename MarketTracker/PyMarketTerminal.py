@@ -6,15 +6,14 @@ import os
 
 def run_notebooks():
     try:
-        cmd = ["python", "Notebooks/PySP.py"]
-        subprocess.run(cmd, check=True)
+        print("Notebooks running: ")
+        print(os.getcwd())
 
         cmd = ["python", "Notebooks/PyTickerTool.py"]
         subprocess.run(cmd, check=True)
 
         cmd = ["python", "Notebooks/PyFactMarket.py"]
         subprocess.run(cmd, check=True)
-
     except Exception as e:
         print(f"Error: {e}")
 

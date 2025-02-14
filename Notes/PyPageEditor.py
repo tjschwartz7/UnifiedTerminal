@@ -2,6 +2,10 @@ import os
 import subprocess
 import Config
 
+def delete_file(file_path):
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
 def load_file_lines(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         return file.readlines()
@@ -29,5 +33,7 @@ def print_file(lines):
 
 def edit(page):
     cmd = [Config.getDefaultEditor(), page]
+    print(os.getcwd())
+    print(cmd)
     subprocess.run(cmd, check=True)
     
