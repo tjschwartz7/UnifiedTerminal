@@ -10,6 +10,7 @@ def delete_files():
     index = 2
     for page in pages:
         print(f'{index}. {page}')
+        index = index+1
 
     try:
         choice = int(input("Selection: "))
@@ -28,6 +29,7 @@ def edit_files():
     index = 2
     for page in pages:
         print(f'{index}. {page}')
+        index = index+1
 
     try:
         choice = int(input("Selection: "))

@@ -13,6 +13,7 @@ if __name__ == "__main__":
         print("3. Smart Budget Terminal")
         print("4. Market Tracker")
         print('5. Notetaking')
+        print('6. Savings Calculator')
         
         try:
             choice = int(input("Selection: "))
@@ -31,6 +32,9 @@ if __name__ == "__main__":
                 subprocess.run(cmd, check=True)
             elif choice == 5:
                 cmd = ["python", "Notes/PyNotes.py"]
+                subprocess.run(cmd, check=True)
+            elif choice == 6:
+                cmd = ["python", "Calculators/SavingsCalculator.py"]
                 subprocess.run(cmd, check=True)
         except Exception as e:
             print(f"Invalid selection: {e}") 
