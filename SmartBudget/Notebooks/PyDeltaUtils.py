@@ -13,27 +13,7 @@ def writeToDeltaTable(dataframe, deltaFilePath, conditionForMerge):
     new_data_delta = DeltaTable.from_pandas(dataframe)
 
     
-    # Perform the merge operation
-    delta_table1.alias("target").merge(
-        delta_table2.alias("source"),
-        "target.CRC32 = source.CRC32"  # Merge condition on CRC32 column
-    ).whenMatchedUpdate(
-        condition="target.CRC32 = source.CRC32",  # Update only if CRC32 matches
-        set={
-            "Debit": "source.Debit",
-            "Credit": "source.Credit",
-            "Description": "source.Description",
-            "Date": "source.Date"
-        }
-    ).whenNotMatchedInsert(
-        values={
-            "Debit": "source.Debit",
-            "Credit": "source.Credit",
-            "Description": "source.Description",
-            "Date": "source.Date",
-            "CRC32": "source.CRC32"
-        }
-    ).execute()
+
 
     write_deltalake(deltaFilePath, dataframe, mode="overwrite")
 

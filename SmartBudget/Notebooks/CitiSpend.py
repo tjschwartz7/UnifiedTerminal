@@ -8,10 +8,10 @@ import PyTableUtils as PTU
 from pyspark.sql import SparkSession
 from delta.tables import DeltaTable
 
-RAW_SRC_PATH = "Raw/Citi/"
+RAW_SRC_PATH = "Raw/CitiSpend/"
 RAW_HISTORY_PATH = RAW_SRC_PATH+'History/'
 
-ENRICHED_PATH = 'Enriched/Citi/'
+ENRICHED_PATH = 'Enriched/CitiSpend/'
 ENRICHED_FILE_NAME = 'CitiTable.parquet'
 ENRICHED_FILE_PATH = ENRICHED_PATH + ENRICHED_FILE_NAME
 
@@ -33,7 +33,7 @@ def Load():
 
             # Read the CSV file into a pandas DataFrame
             try:
-                dataframe = pd.read_csv(source_file)
+                dataframe = pd.read_csv(source_file, skiprows=5)
                 print(f"File {file_name} loaded into DataFrame.")
                 
                 # Optionally, print the first few rows of the DataFrame

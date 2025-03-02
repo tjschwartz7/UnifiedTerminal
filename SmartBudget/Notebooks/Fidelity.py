@@ -19,6 +19,11 @@ ENRICHED_FILE_PATH = ENRICHED_PATH + ENRICHED_FILE_NAME
 #Extract the csv file into a dataframe
 def Load():
     dataframe = pd.DataFrame()
+
+    # Check if the destination directory exists, if not, create it
+    if not os.path.exists(ENRICHED_PATH):
+        os.makedirs(ENRICHED_PATH)
+        
     # List all files in the source directory
     for file_name in os.listdir(RAW_SRC_PATH):
         if file_name.endswith('.csv'):

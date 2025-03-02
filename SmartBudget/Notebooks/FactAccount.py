@@ -7,7 +7,7 @@ SRC_ENRICHED_PATH = "Enriched/"
 SRC_ENRICHED_LORMET_PATH = "Enriched/Lormet/LormetTable.parquet"
 SRC_ENRICHED_FIDELITY_PATH = "Enriched/Fidelity/FidelityTable.parquet"
 SRC_ENRICHED_MARCUS_PATH = "Enriched/Marcus/MarcusTable.parquet"
-SRC_ENRICHED_CITI_PATH = "Enriched/Citi/CitiTable.parquet"
+SRC_ENRICHED_CITI_PATH = "Enriched/CitiAccount/CitiTable.parquet"
 DEST_CURATED_PATH = 'Curated/FactAccount.parquet'
 
 COLUMNS=['Date', 'Balance', 'Credit', 'Debit', 'Type', 'Sub Type', 'Name,' 'Institution', 'Description', 'CRC32']

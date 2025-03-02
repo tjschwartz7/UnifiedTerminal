@@ -6,26 +6,28 @@ import os
 
 def run_notebooks():
     try:
-        cmd = ["python", "Notebooks/PyCiti.py"]
+        cmd = ["python", "Notebooks/CitiAccount.py"]
         subprocess.run(cmd, check=True)
 
-        cmd = ["python", "Notebooks/PyFidelity.py"]
+        cmd = ["python", "Notebooks/CitiSpend.py"]
         subprocess.run(cmd, check=True)
 
-        cmd = ["python", "Notebooks/PyMarcus.py"]
+        cmd = ["python", "Notebooks/Fidelity.py"]
         subprocess.run(cmd, check=True)
 
-        cmd = ["python", "Notebooks/PyLormet.py"]
+        cmd = ["python", "Notebooks/Marcus.py"]
         subprocess.run(cmd, check=True)
 
-        cmd = ["python", "Notebooks/PyFactAccount.py"]
+        cmd = ["python", "Notebooks/Lormet.py"]
+        subprocess.run(cmd, check=True)
+
+        cmd = ["python", "Notebooks/FactAccount.py"]
         subprocess.run(cmd, check=True)
 
     except Exception as e:
         print(f"Error: {e}")
 
 if __name__ == "__main__":
-    print(os.getcwd())
     os.chdir('SmartBudget/')
     run_notebooks()
 

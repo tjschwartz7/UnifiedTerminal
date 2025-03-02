@@ -7,6 +7,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+#WARNING
+#More research is needed before full testing can be done with this scraper.
+#Careless usage of this program can result in an IP ban from some websites. 
+#Because of this, proxy networks should be used when actually performing testing,
+#along with other safeguards.
+
+# 1. Don't turn on headless mode. You'll get CAPTCHA'd.
+# 2. If you get CAPTCHA'd, you been found out.
+# 3. If you get CAPTCHA'd enough, you can get banned. Be careful.
+# 
+# I feel like I don't know what I'm doing with this yet, 
+# and I won't be playing with this much until I feel that I do. 
 
 # Set up Firefox options (optional: headless mode)
 options = Options()
